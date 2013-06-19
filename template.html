@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<base href="." /><!--[if IE]></base><![endif]-->
+
+	<!-- standard stuff -->
+	<meta charset="utf-8" />
+
+	<link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+
+	<!-- responsive -->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link href="vendor/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">	
+
+	<script src="js/jquery.js"></script>
+	<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+
+	<!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+	<!--[if lt IE 9]>
+	  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+	
+	<style type="text/css" title="text/css">
+		.info-panel {
+		background-color:white;
+		padding:10px;
+		margin-top:10px;
+		}
+		
+		.bibr {
+			background-color:#EDF7FB;
+			border-bottom:1px solid #9CD2F0;
+			cursor:pointer;
+			color:#1B6685;
+		}
+		
+		.bibr:hover {
+			background-color:#BCE0F4;
+		}
+		
+		.fig {
+			background-color:#EEF4D5;
+			border-bottom:1px solid #A8C400;
+			cursor:pointer;
+			color:#4B5A00;
+		}
+		
+		.fig:hover {
+			background-color:#D9E5A1;
+		}	
+		
+		.taxon-name {
+			background-color:#FFE2E5;
+			border-bottom:1px solid #FF955A;
+			cursor:pointer;
+			color:#408000;
+		}
+		
+		.taxon-name:hover {
+			background-color:#FFBB5C;
+		}
+		
+		
+	</style>
+
+	<script>
+		var selected_reference = '';
+		var selected_figure = '';
+		var selected_table = '';
+		var selected_name = '';
+	
+		// Display selected reference
+		function show_reference(id) {
+			// ensure reference tab is visible
+			$('#panel-tabs li:eq(3) a').tab('show'); // Select tab (0-indexed)
+			
+			// scroll to this reference
+			var rowpos = $('#' + id).offset();
+			var xpos = $('#references').offset();
+			var delta = rowpos.top - xpos.top;
+	
+			$('#tab-content').animate({
+				scrollTop: delta
+			});
+			
+			if (selected_reference != '') {
+				$('#' + selected_reference).css('background-color', 'white');
+			}    	
+			selected_reference = id;
+			
+			// highlight
+			$('#' + selected_reference).css('background-color', '#9CD2F0'); 
+		}
+		
+		// Display selected figure
+		function show_figure(id) {
+			// ensure figure tab is visible
+			$('#panel-tabs li:eq(2) a').tab('show'); // Select tab (0-indexed)
+			
+			// scroll to this reference
+			var rowpos = $('#' + id).offset();
+			var xpos = $('#figures').offset();
+			var delta = rowpos.top - xpos.top;
+	
+			$('#tab-content').animate({
+				scrollTop: delta
+			});
+			
+			if (selected_figure != '') {
+				$('#' + selected_figure).css('background-color', 'white');
+			}    	
+			if (selected_table != '') {
+				$('#' + selected_table).css('background-color', 'white');
+			}    	
+			selected_figure = id;
+			
+			// highlight
+			$('#' + selected_figure).css('background-color', '#D9E5A1'); 
+		}
+	
+		// Display selected table
+		function show_table(id) {
+			// ensure figure tab is visible
+			$('#panel-tabs li:eq(2) a').tab('show'); // Select tab (0-indexed)
+			
+			// scroll to this reference
+			var rowpos = $('#' + id).offset();
+			var xpos = $('#figures').offset();
+			var delta = rowpos.top - xpos.top;
+	
+			$('#tab-content').animate({
+				scrollTop: delta
+			});
+			
+			if (selected_figure != '') {
+				$('#' + selected_figure).css('background-color', 'white');
+			}     	
+			if (selected_table != '') {
+				$('#' + selected_table).css('background-color', 'white');
+			}    	
+			selected_table = id;
+			
+			// highlight
+			$('#' + selected_table).css('background-color', '#D9E5A1'); 
+		}
+		
+		// Display selected name
+		function show_taxon_name(id) {
+			// ensure name tab is visible
+			$('#panel-tabs li:eq(1) a').tab('show'); // Select tab (0-indexed)
+			
+			console.log(id);
+			
+			// scroll to this name
+			var rowpos = $('#' + id).offset();
+			var xpos = $('#taxa').offset();
+			var delta = rowpos.top - xpos.top;
+	
+			$('#tab-content').animate({
+				scrollTop: delta
+			});
+			
+			if (selected_name != '') {
+				$('#' + selected_name).css('background-color', 'white');
+			}     	
+			selected_name = id;
+			
+			// highlight
+			$('#' + selected_name).css('background-color', '#FFBB5C'); 
+		}
+		
+				
+		function openurl(co, id)
+		{
+			$('#find_' + id).html("Searching...");
+			$.getJSON("http://bionames.org/bionames-api/openurl.php?" + co + "&callback=?",
+				function(data){
+					$('#find_' + id).html("Find in BioNames");
+					if (data.results.length > 0)
+					{
+						//alert(data.results[0].id);
+						var html = '';
+						
+						if (data.results.length == 1)
+						{
+							html += '<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert">×</button>';
+							html += '<h4>Found</h4>';
+						}
+						else
+						{
+							html += '<div class="alert"><button type="button" class="close" data-dismiss="alert">×</button>';
+							html += '<h4>Possible matches</h4>';							
+						}
+						
+						
+						html += '<p/>';
+						html += '<table>';
+						
+						for (var i in data.results)
+						{							
+							html += '<tr>';
+							if (data.results[i].reference.thumbnail) {
+								html += '<td width="100">' + '<img style="box-shadow:2px 2px 2px #ccc;width:64px;background-color:white;" src="' + data.results[i].reference.thumbnail + '"/>' + '</td>';
+							}
+							html += '<td>' + '<b>' + data.results[i].reference.title + '</b>' + '<br/>';
+							
+							html += '<a class="btn btn-primary" href="http://bionames.org/references/' + data.results[i].reference._id + '">View</a>';
+							
+							html += '</td>';
+							html += '</tr>';
+						}
+						html += '</table>';
+						
+						html += '</div>';
+						
+						$('#reference_' + id).html(html);
+					}
+					else
+					{
+						var html = '<div class="alert alert-error"><button type="button" class="close" data-dismiss="alert">×</button><h4>Not found</h4>';
+						html += '</div>';
+						
+						$('#reference_' + id).html(html);
+					
+					}
+				}
+			);
+		}
+		
+		function namesearch(name, id)
+		{
+			$('#find-' + id).html("Searching...");
+			$.getJSON("http://bionames.org/api/name/" + name + "&callback=?",
+				function(data){
+					$('#find-' + id).html("Find in BioNames");
+					if (data.clusters.length > 0)
+					{
+						var html = '';
+						
+						for (var i in data.clusters) {
+							html += '<div>'
+							html += '<a href="http://bionames.org/names/' + data.clusters[i]._id + '">';
+							html += data.clusters[i].nameComplete;
+							if (data.clusters[i].taxonAuthor) {
+								html += ' ' + data.clusters[i].taxonAuthor;
+							}
+							html += '</a>';
+							html += '</div>'					
+						}
+						
+						$('#show-' + id).html(html);
+					}
+					else
+					{
+						var html = '<div class="alert alert-error"><button type="button" class="close" data-dismiss="alert">×</button><h4>Not found</h4>';
+						html += '</div>';
+						
+						$('#show-' + id).html(html);
+					
+					}
+				}
+			);
+		}
+		
+	
+		
+	</script>
+
+
+</head>
+<body onload="$(window).resize()" style="background-color:#f2f2f2;">
+
+	<div class="navbar navbar-fixed-top">
+		<div class="navbar-inner">
+			<div class="container-fluid">
+				 <a class="brand" href="http://bionames.org">BioNames</a>
+				 <ul class="nav">
+				  </ul>
+			  </div>
+		</div>
+	</div>
+	
+	<div class="container-fluid" style="margin-top:60px;font-family:Helvetica, Arial, Verdana, sans-serif;font-size:16px;line-height:1.5em;">
+
+		<div class="row-fluid">
+			<div class="main-content span7">			
+				<!-- redisplayed XML goes here -->
+				<div id="document" style="padding:20px;height:400px;overflow:auto;background-color:white;">
+					<BODY>
+				</div>
+			</div>
+			
+			<div class="span5">
+				<!-- detail stuff goes here -->
+				
+				<ul id="panel-tabs" class="nav nav-tabs">
+				  <li><a href="#contents-tab" data-toggle="tab">Contents</a></li>
+				  <li><a href="#taxa-tab" data-toggle="tab">Names</a></li>
+				  <li><a href="#figures-tab" data-toggle="tab">Figures</a></li>
+				  <li><a href="#references-tab" data-toggle="tab">References</a></li>
+				  <li class="active"><a href="#info-tab" data-toggle="tab">Article Info</a></li>
+				</ul>
+			
+				<div id="tab-content" class="tab-content">				  
+				  <div class="tab-pane" id="contents-tab">
+					<div id="contents">
+						<CONTENTS>
+					</div>
+				  </div>
+				  
+				  <div class="tab-pane" id="taxa-tab">
+					<div id="taxa">
+						<TAXA>
+					</div>
+				  </div>
+				  
+				  <div class="tab-pane" id="figures-tab">
+					<div id="figures">
+						<FIGURES>
+					</div>
+				  </div>
+				  
+				  <div class="tab-pane" id="references-tab">
+					<div id="references">
+						<REFERENCES>	
+					</div>
+				  </div>
+
+				  <div class="tab-pane active" id="info-tab">
+					<div id="info">
+						<INFO>
+					</div>
+				  </div>
+
+				</div>
+				
+				
+			</div>
+		</div>
+	</div>
+
+<script>
+	// http://stackoverflow.com/questions/6762564/setting-div-width-according-to-the-screen-size-of-user
+	$(window).resize(function() { 
+		var windowWidth  = $('#document').width();
+		var windowHeight = $(window).height() -  $('#document').offset().top- 60;
+		$('#document').css({'height':windowHeight, 'width':windowWidth });
+
+		$('.tab-pane').css({'height': (windowHeight - 20)});
+
+	});	
+</script>
+
+</body>
+</html>
