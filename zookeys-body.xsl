@@ -146,12 +146,28 @@ exclude-result-prefixes="mml tp xlink"
 				<h5><xsl:value-of select="title"/></h5>
 			</xsl:when>
 			<xsl:otherwise>
-				<b><xsl:value-of select="title"/></b>
+				<h4><xsl:value-of select="title"/></h4>
 			</xsl:otherwise>
 		</xsl:choose>
 
         <xsl:apply-templates/>
     </xsl:template>
+
+    <xsl:template match="tp:treatment-sec">
+		<!-- get depth of title -->
+		<xsl:variable name="depth" select="count(ancestor::sec)" />
+		<!-- set header level based on depth -->
+		<xsl:choose>
+			<xsl:when test="$depth=3">
+				<h3><xsl:value-of select="title"/></h3>
+			</xsl:when>
+			<xsl:otherwise>
+				<h4><xsl:value-of select="title"/></h4>
+			</xsl:otherwise>
+		</xsl:choose>
+		<xsl:apply-templates/>
+	</xsl:template>
+
 
     <xsl:template match="title">
 
@@ -218,30 +234,51 @@ exclude-result-prefixes="mml tp xlink"
 
 	<!-- taxpub -->
 	<xsl:template match="tp:taxon-name">
-		<span class="taxon-name">
-			<!-- <a>
-				<xsl:attribute name="href">
-					<xsl:text>../search/</xsl:text>
-					<xsl:value-of select="." />
-				</xsl:attribute>	
-				<xsl:apply-templates />
-			</a> -->
 
+		<xsl:choose>
+			<!-- name is atomised into tp:taxon-name-part -->
+			<xsl:when test="tp:taxon-name-part">
+				<span class="taxon-name">
+					<xsl:attribute name = "onclick">
+						<xsl:text>show_taxon_name('name-</xsl:text>
+							<xsl:for-each select='tp:taxon-name-part'>
+       							<xsl:value-of select='text()'/>
+       							<xsl:if test='position() != last()'>
+          							<xsl:text>-</xsl:text>
+        						</xsl:if>
+    						</xsl:for-each>
+					<xsl:text>');</xsl:text>
+					</xsl:attribute> 
+
+				<xsl:for-each select='tp:taxon-name-part'>
+       				<xsl:value-of select='text()'/>
+       				<xsl:if test='position() != last()'>
+          				<xsl:text> </xsl:text>
+        			</xsl:if>
+    			</xsl:for-each>
+				</span>
+			</xsl:when>
+
+			<xsl:otherwise>
+
+				<!-- simple case of name is just text -->
+				<span class="taxon-name">
 					<xsl:attribute name = "onclick">
 
-						<xsl:text>show_taxon_name('name-</xsl:text>
-				<xsl:call-template name="replace-string">
-					<xsl:with-param name="text" select="."/>
-					<xsl:with-param name="from" select="' '"/>
-					<xsl:with-param name="to" select="'-'"/>
-				</xsl:call-template>
-						<xsl:text>');</xsl:text>
+					<xsl:text>show_taxon_name('name-</xsl:text>
+						<xsl:call-template name="replace-string">
+							<xsl:with-param name="text" select="text()"/>
+							<xsl:with-param name="from" select="' '"/>
+							<xsl:with-param name="to" select="'-'"/>
+						</xsl:call-template>
+					<xsl:text>');</xsl:text>
 					</xsl:attribute> 
+					
 					<xsl:apply-templates/>
+				</span>
+			</xsl:otherwise>
+		</xsl:choose>
 
-
-
-		</span>
 	</xsl:template>
 
 <!-- eat -->

@@ -116,12 +116,32 @@ $names = array();
 $nodeCollection = $xpath->query ($xpath_query);
 foreach($nodeCollection as $node)
 {
-	$names[] = $node->firstChild->nodeValue;
+	$parts = array();
+
+	// handle case where name has been atomised
+	$nc = $xpath->query ('tp:taxon-name-part', $node);
+	foreach ($nc as $n)
+	{
+		$parts[] = $n->firstChild->nodeValue;
+	}
+	
+	if (count($parts) > 0)
+	{
+		$namestring = join(' ', $parts);
+	}
+	else
+	{
+		$namestring = $node->firstChild->nodeValue;
+	}
+
+	$names[] = $namestring;
 }
 
 $names = array_unique($names);
 sort($names);
 //print_r($names);
+
+//exit();
 
 $text = '';
 foreach ($names as $name)
