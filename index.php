@@ -21,7 +21,73 @@ if (isset($_GET['doi']))
 }
 else
 {
-	$doi = '10.3897/zookeys.81.1111';
+	echo '<!DOCTYPE html>
+<html>
+<head>
+	<base href="." /><!--[if IE]></base><![endif]-->
+
+	<!-- standard stuff -->
+	<meta charset="utf-8" />
+
+	<link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+
+	<link href=\'../../images/favicon.png\' rel=\'icon\' type=\'image/png\'>
+
+	<!-- responsive -->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link href="vendor/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">	
+
+	<script src="js/jquery.js"></script>
+	<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+
+	<!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+	<!--[if lt IE 9]>
+	  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+	
+
+</head>
+<body style="background-color:#f2f2f2;">
+
+	<div class="navbar navbar-fixed-top">
+		<div class="navbar-inner">
+			<div class="container-fluid">
+				 <a class="brand" href="http://bionames.org">BioNames</a>
+				 <ul class="nav">
+				  </ul>
+			  </div>
+		</div>
+	</div>
+	
+	<div class="container-fluid" style="margin-top:60px;font-family:Helvetica, Arial, Verdana, sans-serif;">
+		<h1>ZooKeys viewer examples</h1>
+		<div class="row-fluid">
+
+			<div class="span2">
+				<a href="?doi=10.3897/zookeys.99.723">The spider family Selenopidae (Arachnida, Araneae) in Australasia and the Oriental Region</a>
+			</div>
+
+			<div class="span2">
+				<a href="?doi=10.3897/zookeys.183.3073">Description of Alpheus cedrici sp. n., a strikingly coloured snapping shrimp (Crustacea, Decapoda, Alpheidae) from Ascension Island, central Atlantic Ocean</a>
+			</div>
+
+			<div class="span2">
+				<a href="?doi=10.3897/zookeys.178.1410">Diversity of the strongly rheophilous tadpoles of Malagasy tree frogs, genus Boophis (Anura, Mantellidae), and identification of new candidate species via larval DNA sequence and morphology </a>
+			</div>
+
+			<div class="span2">
+				<a href="?doi=10.3897/zookeys.290.5114">A review of the Western Australian keeled millipede genus Boreohesperus (Diplopoda, Polydesmida, Paradoxosomatidae) </a>
+			</div>
+
+		
+		</div>
+	</div>
+
+
+</body>
+</html>';
+
+exit();
 }
 
 $html = get('http://dx.doi.org/' . $doi);
