@@ -126,7 +126,7 @@
 							<b>DOI: </b>
 							<a target="_new">
 								<xsl:attribute name="href">
-									<xsl:text>http://dx.doi.org</xsl:text>
+									<xsl:text>http://dx.doi.org/</xsl:text>
 									<xsl:value-of select="."/>
 								</xsl:attribute>
 								<xsl:value-of select="."/>
