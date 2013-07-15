@@ -121,17 +121,37 @@
 		<xsl:for-each select="ext-link">
 			<xsl:choose>
 				<xsl:when test="@ext-link-type='uri'">
-					<xsl:if test="starts-with(.,'10.')">
+					<xsl:if test="starts-with(@xlink:href,'http://dx.doi.org/')">
 						<div>
 							<b>DOI: </b>
 							<a target="_new">
 								<xsl:attribute name="href">
-									<xsl:text>http://dx.doi.org/</xsl:text>
 									<xsl:value-of select="."/>
 								</xsl:attribute>
 								<xsl:value-of select="."/>
 							</a>
-							
+						</div>
+					</xsl:if>
+					<xsl:if test="starts-with(@xlink:href,'http://hdl.handle.net/')">
+						<div>
+							<b>Handle: </b>
+							<a target="_new">
+								<xsl:attribute name="href">
+									<xsl:value-of select="."/>
+								</xsl:attribute>
+								<xsl:value-of select="."/>
+							</a>
+						</div>
+					</xsl:if>
+					<xsl:if test="starts-with(@xlink:href,'http://biostor.org/')">
+						<div>
+							<b>BioStor: </b>
+							<a target="_new">
+								<xsl:attribute name="href">
+									<xsl:value-of select="."/>
+								</xsl:attribute>
+								<xsl:value-of select="."/>
+							</a>
 						</div>
 					</xsl:if>
 				</xsl:when>
