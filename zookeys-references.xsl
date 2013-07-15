@@ -126,7 +126,7 @@
 							<b>DOI: </b>
 							<a target="_new">
 								<xsl:attribute name="href">
-									<xsl:value-of select="."/>
+									<xsl:value-of select="@xlink:href"/>
 								</xsl:attribute>
 								<xsl:value-of select="."/>
 							</a>
@@ -137,7 +137,7 @@
 							<b>Handle: </b>
 							<a target="_new">
 								<xsl:attribute name="href">
-									<xsl:value-of select="."/>
+									<xsl:value-of select="@xlink:href"/>
 								</xsl:attribute>
 								<xsl:value-of select="."/>
 							</a>
@@ -148,7 +148,7 @@
 							<b>BioStor: </b>
 							<a target="_new">
 								<xsl:attribute name="href">
-									<xsl:value-of select="."/>
+									<xsl:value-of select="@xlink:href"/>
 								</xsl:attribute>
 								<xsl:value-of select="."/>
 							</a>
