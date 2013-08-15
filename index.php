@@ -90,19 +90,25 @@ else
 exit();
 }
 
-$html = get('http://dx.doi.org/' . $doi);
 
-//echo $html;
-
-// grab XML URL
-
-if (preg_match('/<meta\s+name="citation_xml_url"\s+content="(?<content>.*)"\/>/m', $html, $m))
+if (0)
 {
-	$xml_url = $m['content'];
-	
+	// Fetch from ZooKeys site via DOI
+
+	$html = get('http://dx.doi.org/' . $doi);
+
+	if (preg_match('/<meta\s+name="citation_xml_url"\s+content="(?<content>.*)"\/>/m', $html, $m))
+	{
+		$xml_url = $m['content'];
+		
+		$xml = get($xml_url);
+	}
+}
+else
+{
+	$xml_url = 'https://raw.github.com/rdmpage/ZooKeys-xml/master/' . str_replace('/', '_', $doi) . '.xml';
 	$xml = get($xml_url);
 }
-
 
 //exit();
 
