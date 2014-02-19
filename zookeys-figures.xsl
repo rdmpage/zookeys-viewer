@@ -62,9 +62,16 @@ exclude-result-prefixes="mml tp xlink"
 		<div style="width:100%">
 		<img>
 			<xsl:attribute name="src">
-				<xsl:value-of select="$imagePrefix" />
-				<xsl:text>ZooKeys-</xsl:text>
-				<xsl:value-of select="substring-after(graphic/@xlink:href, 'ZooKeys-')" />
+				<xsl:choose>
+					<xsl:when test="contains(graphic/@xlink:href, 'http')">
+						<xsl:value-of select="graphic/@xlink:href" />
+					</xsl:when>
+					<xsl:otherwise>			
+						<xsl:value-of select="$imagePrefix" />
+						<xsl:text>ZooKeys-</xsl:text>
+						<xsl:value-of select="substring-after(graphic/@xlink:href, 'ZooKeys-')" />
+					</xsl:otherwise>
+				</xsl:choose>
 			</xsl:attribute>
 		</img>
 		</div>
