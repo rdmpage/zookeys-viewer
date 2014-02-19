@@ -78,7 +78,10 @@ else
 			<div class="span2">
 				<a href="?doi=10.3897/zookeys.290.5114">A review of the Western Australian keeled millipede genus Boreohesperus (Diplopoda, Polydesmida, Paradoxosomatidae) </a>
 			</div>
-
+			
+			<div class="span2">
+				<a href="?doi=10.3897/zookeys.50.504">The centipede genus Eupolybothrus Verhoeff, 1907 (Chilopoda: Lithobiomorpha: Lithobiidae) in North Africa, a cybertaxonomic revision, with a key to all species in the genus and the first use of DNA barcoding for the group</a>
+			</div>
 		
 		</div>
 	</div>
