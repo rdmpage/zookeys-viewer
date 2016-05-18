@@ -82,6 +82,10 @@ else
 			<div class="span2">
 				<a href="?doi=10.3897/zookeys.50.504">The centipede genus Eupolybothrus Verhoeff, 1907 (Chilopoda: Lithobiomorpha: Lithobiidae) in North Africa, a cybertaxonomic revision, with a key to all species in the genus and the first use of DNA barcoding for the group</a>
 			</div>
+
+			<div class="span2">
+				<a href="?doi=10.3897/zookeys.345.5840">Taxonomy, distribution, and natural history of flying foxes (Chiroptera, Pteropodidae) in the Mortlock Islands and Chuuk State, Caroline Islands</a>
+			</div>
 		
 		</div>
 	</div>
@@ -94,7 +98,7 @@ exit();
 }
 
 
-if (0)
+if (1)
 {
 	// Fetch from ZooKeys site via DOI
 
@@ -106,6 +110,16 @@ if (0)
 		
 		$xml = get($xml_url);
 	}
+	// 			<link rel="alternate" hreflang="en" type="application/xml" title="XML" href="/lib/ajax_srv/article_elements_srv.php?action=download_xml&amp;item_id=3575" />
+	if (preg_match('/<link\s+rel="alternate"\s+hreflang="en"\s+type="application\/xml"\s+title="XML"\s+href="(?<href>.*)"\s*\/>/m', $html, $m))
+	{
+		$xml_url = $m['href'];
+		$xml_url = str_replace('&amp;', '&', $xml_url);
+		$xml_url = 'http://zookeys.pensoft.net' . $xml_url;
+		
+		$xml = get($xml_url);
+	}
+	
 }
 else
 {
